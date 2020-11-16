@@ -11,9 +11,13 @@ public class Jogador : MonoBehaviour
 
     private float pontos;
 
+    private float recorde;
+
     public float multiplicaPontos = 1;
     
     public Text pontosText;
+
+    public Text recordeText;
 
     public BoxCollider2D areaJogo;
 
@@ -27,7 +31,6 @@ public class Jogador : MonoBehaviour
     void Update()
     {
         pontos += Time.deltaTime * multiplicaPontos;
-
         pontosText.text=$"Pontos: {Mathf.FloorToInt(pontos)}";
 
         // Movimentação do Jogador
@@ -54,11 +57,17 @@ public class Jogador : MonoBehaviour
         );
     }
     private void OnCollisionEnter2D(Collision2D other){
-        if(other.gameObject.CompareTag("Atingido"))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if(other.gameObject.CompareTag("Atingido")){
+            if(pontos>recorde){
+                recordeText.text=$"Pontos: {Mathf.FloorToInt(pontos)}";
+                recorde=pontos;
+                pontos=0;
+            }
+            else
+            {
+                pontos=0;
+            }
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
-
-    
 }
